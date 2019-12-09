@@ -12,33 +12,42 @@ class InterfaceTest extends TestCase
     {
         return new class implements Validatorable
         {
+            public function setData(array $data): Validatorable {return $this;}
+
+            public function setObject($object): Validatorable {return $this;}
+
             public function toValidator(): Validator
             {
                 return new class implements Validator
                 {
-                    public function getMessageBag(){}
+                    public function getMessageBag() {}
 
-                    public function validate(){}
+                    public function validate() {}
 
-                    public function validated(){}
+                    public function validated() {}
 
-                    public function fails(){}
+                    public function fails() {}
 
-                    public function failed(){}
+                    public function failed() {}
 
-                    public function sometimes($attribute, $rules, callable $callback){}
+                    public function sometimes($attribute, $rules, callable $callback) {}
 
-                    public function after($callback){}
+                    public function after($callback) {}
 
-                    public function errors(){}
+                    public function errors() {}
                 };
             }
         };
     }
 
-    public function testSomething()
+    public function testBuildValidator()
     {
-        $validator = $this->fakeValidatorBuilder()->toValidator();
+        $validator = (
+            $this->fakeValidatorBuilder()
+                ->setData([])
+                ->setObject((object) [])
+                ->toValidator()
+        );
 
         $this->assertInstanceOf(Validator::class, $validator);
     }
